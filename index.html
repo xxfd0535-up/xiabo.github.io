@@ -237,20 +237,20 @@
     }
     .card {
       position: relative;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.25));
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(10,15,30,0.35));
       border-radius: 16px;
       width: 320px;
       padding: 26px;
-      border: 1px solid rgba(120,160,255,0.06);
+      border: 2px solid rgba(120,160,255,0.1);
       box-shadow:
         0 4px 30px rgba(4,6,20,0.6),
         0 0 40px rgba(12,20,40,0.2);
-      transition: transform 0.28s ease, box-shadow 0.28s ease;
+      transition: all 0.5s ease;
       overflow: hidden;
       opacity: 0;
       transform: translateY(20px);
-      transition: all 0.5s ease;
       cursor: pointer;
+      text-align: left;
     }
     
     .card:hover {
@@ -259,6 +259,7 @@
         0 10px 40px rgba(4,6,20,0.7),
         0 0 60px rgba(100,150,255,0.1);
       animation: breath 2s infinite;
+      border-color: rgba(139,224,255,0.3);
     }
     section.visible .card {
       animation: fadeInUp 0.6s forwards;
@@ -279,12 +280,7 @@
       pointer-events: none;
       transition: opacity 0.3s ease;
     }
-    .card:hover {
-      transform: translateY(-8px);
-      box-shadow:
-        0 10px 40px rgba(4,6,20,0.7),
-        0 0 60px rgba(100,150,255,0.1);
-    }
+
     .card:hover::before {
       opacity: 0.8;
     }
@@ -295,6 +291,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      text-align: left;
     }
     .card h3::before {
       content: "▣";
@@ -305,6 +302,7 @@
       color: #cbd6e6;
       font-size: 14px;
       line-height: 1.6;
+      text-align: left;
     }
 
     /* 标签样式 */
@@ -368,7 +366,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      height: 300px;
+      height: 280px;
     }
     
     .contact-card:hover {
@@ -527,7 +525,7 @@
   </header>
 
   <section id="intro" class="intro">
-    <img src="images/IP头像.png" alt="头像" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%22120%22 viewBox=%220 0 120 120%22%3E%3Ccircle cx=%2260%22 cy=%2260%22 r=%2255%22 fill=%22%231a1a2e%22 stroke=%22%238be0ff%22 stroke-width=%222%22/%3E%3Ctext x=%2260%22 y=%2265%22 font-family=%22Arial%22 font-size=%2224%22 fill=%22%238be0ff%22 text-anchor=%22middle%22%3EX%3C/text%3E%3C/svg%3E'; this.alt='头像加载失败';"> 
+    <img src="images/头像.png" alt="头像" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%22120%22 viewBox=%220 0 120 120%22%3E%3Ccircle cx=%2260%22 cy=%2260%22 r=%2255%22 fill=%22%231a1a2e%22 stroke=%22%238be0ff%22 stroke-width=%222%22/%3E%3Ctext x=%2260%22 y=%2265%22 font-family=%22Arial%22 font-size=%2224%22 fill=%22%238be0ff%22 text-anchor=%22middle%22%3EX%3C/text%3E%3C/svg%3E'; this.alt='头像加载失败';"> 
     <h2>你好，我是 Xiabo 👋</h2>
     <p>前大厂程序员- AI 编程出海创业者- 专注于大型互联网产品研发与技术融合、擅长构建和部署AI项目。欢迎在下方查看我的技能与作品。</p>
   </section>
@@ -601,7 +599,7 @@
         </div>
         <h3>技术博客</h3>
         <p>CSDN技术分享平台</p>
-        <a href="https://blog.csdn.net/你的用户名" target="_blank" rel="noopener noreferrer">访问博客</a>
+        <a href="https://blog.csdn.net/xxfd0535" target="_blank" rel="noopener noreferrer">访问</a>
       </div>
 
       <!-- GitHub -->
@@ -613,7 +611,7 @@
         </div>
         <h3>GitHub</h3>
         <p>开源项目代码仓库</p>
-        <a href="https://github.com/xiabo" target="_blank" rel="noopener noreferrer">访问仓库</a>
+        <a href="https://github.com/xxfd0535-up" target="_blank" rel="noopener noreferrer">访问</a>
       </div>
 
       <!-- 微信 -->
