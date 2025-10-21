@@ -4,6 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Xiabo 的个人主页</title>
+  <meta name="description" content="Xiabo的个人主页，分享技术、生活和项目经验。">
+  <meta name="keywords" content="个人主页,技术博客,前端开发,JavaScript,HTML,CSS">
+  <meta name="author" content="Xiabo">
+  <meta property="og:title" content="Xiabo 的个人主页">
+  <meta property="og:description" content="Xiabo的个人主页，分享技术、生活和项目经验。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://xxfd0535-up.github.io">
   <style>
     /* ====== 全局样式 ====== */
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -24,6 +31,7 @@
       inset: 0;
       z-index: -1;
       pointer-events: none;
+      will-change: transform, opacity;
     }
     #stars::before,
     #stars::after,
@@ -39,9 +47,10 @@
       mix-blend-mode: screen;
     }
     #stars::before {
-      background-size: 3px 3px, 120px 120px;
+      background-size: 2px 2px, 100px 100px;
       opacity: 0.10;
-      animation: starShift 40s linear infinite;
+      animation: starShift 30s linear infinite;
+      will-change: transform, opacity;
     }
     #stars::after {
       background-size: 6px 6px, 240px 240px;
@@ -466,7 +475,7 @@
   </header>
 
   <section id="intro" class="intro">
-    <img src="images/ip头像.png" alt="头像"> 
+    <img src="images/IP头像.png" alt="头像" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%22120%22 viewBox=%220 0 120 120%22%3E%3Ccircle cx=%2260%22 cy=%2260%22 r=%2255%22 fill=%22%231a1a2e%22 stroke=%22%238be0ff%22 stroke-width=%222%22/%3E%3Ctext x=%2260%22 y=%2265%22 font-family=%22Arial%22 font-size=%2224%22 fill=%22%238be0ff%22 text-anchor=%22middle%22%3EX%3C/text%3E%3C/svg%3E'; this.alt='头像加载失败';"> 
     <h2>你好，我是 Xiabo 👋</h2>
     <p>专注于 AI 技术与自媒体内容创作，擅长构建智能应用、数字人、语音克隆与 AI 视频项目。欢迎在下方查看我的技能与作品。</p>
   </section>
@@ -540,7 +549,7 @@
         </div>
         <h3>技术博客</h3>
         <p>CSDN技术分享平台</p>
-        <a href="https://blog.csdn.net/你的用户名" target="_blank" rel="noopener">访问博客</a>
+        <a href="https://blog.csdn.net/你的用户名" target="_blank" rel="noopener noreferrer">访问博客</a>
       </div>
 
       <!-- GitHub -->
@@ -552,7 +561,7 @@
         </div>
         <h3>GitHub</h3>
         <p>开源项目代码仓库</p>
-        <a href="https://github.com/xiabo" target="_blank" rel="noopener">访问仓库</a>
+        <a href="https://github.com/xiabo" target="_blank" rel="noopener noreferrer">访问仓库</a>
       </div>
 
       <!-- 微信 -->
@@ -564,7 +573,7 @@
         </div>
         <h3>微信</h3>
         <p>javaboy2012</p>
-        <img src="images/wechat-qrcode.jpg" alt="微信二维码" class="wechat-qrcode">
+        <img src="images/wechat-qrcode.jpg" alt="微信二维码" class="wechat-qrcode" onerror="this.src='images/placeholder.png';this.alt='二维码加载失败';">
       </div>
     </div>
   </section>
