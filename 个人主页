@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Xiabo 的个人主页</title>
+  <style>
+    /* ====== 全局样式 ====== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: "Microsoft YaHei", sans-serif;
+      color: #fff;
+      background: radial-gradient(circle at 20% 20%, #0a0f1f, #000);
+      overflow-x: hidden;
+    }
+
+    /* ====== 星空粒子背景 ====== */
+    #stars {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: black;
+      background-image: radial-gradient(white 1px, transparent 1px);
+      background-size: 3px 3px;
+      animation: moveStars 60s linear infinite;
+      opacity: 0.3;
+    }
+    @keyframes moveStars {
+      from { background-position: 0 0; }
+      to { background-position: -10000px 10000px; }
+    }
+
+    /* ====== 导航栏 ====== */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(10, 10, 30, 0.6);
+      backdrop-filter: blur(8px);
+      padding: 10px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    header h1 {
+      font-size: 20px;
+      color: #00f6ff;
+    }
+    nav a {
+      color: #fff;
+      margin-left: 20px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    nav a:hover {
+      color: #00f6ff;
+      text-shadow: 0 0 10px #00f6ff;
+    }
+
+    /* ====== 个人简介 ====== */
+    .intro {
+      margin-top: 120px;
+      text-align: center;
+    }
+    .intro img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 3px solid #00f6ff;
+      box-shadow: 0 0 20px #00f6ff;
+    }
+    .intro h2 {
+      margin-top: 20px;
+      font-size: 26px;
+      color: #00f6ff;
+    }
+    .intro p {
+      margin-top: 10px;
+      font-size: 16px;
+      color: #ccc;
+    }
+
+    /* ====== 区块标题 ====== */
+    section {
+      max-width: 1000px;
+      margin: 100px auto 60px;
+      text-align: center;
+      padding: 0 20px;
+    }
+    section h2 {
+      font-size: 28px;
+      margin-bottom: 30px;
+      color: #00f6ff;
+      text-shadow: 0 0 15px #00f6ff;
+    }
+
+    /* ====== 技能卡片 ====== */
+    .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+    }
+    .card {
+      background: rgba(20, 20, 40, 0.7);
+      border: 1px solid rgba(0, 246, 255, 0.3);
+      border-radius: 15px;
+      width: 280px;
+      padding: 25px;
+      box-shadow: 0 0 20px rgba(0, 246, 255, 0.2);
+      transition: 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 25px rgba(0, 246, 255, 0.5);
+    }
+    .card h3 {
+      color: #00f6ff;
+      margin-bottom: 10px;
+    }
+    .card p {
+      color: #ccc;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* ====== 联系方式 ====== */
+    .contact {
+      text-align: center;
+      margin-bottom: 100px;
+    }
+    .contact a {
+      display: inline-block;
+      color: #00f6ff;
+      margin: 10px 20px;
+      text-decoration: none;
+      font-size: 18px;
+    }
+    .contact img {
+      width: 100px;
+      margin-top: 10px;
+      border-radius: 10px;
+    }
+
+    /* ====== 响应式 ====== */
+    @media (max-width: 768px) {
+      .card-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      header {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="stars"></div>
+  <header>
+    <h1>Xiabo 的个人主页</h1>
+    <nav>
+      <a href="#intro">关于我</a>
+      <a href="#skills">技能</a>
+      <a href="#projects">作品</a>
+      <a href="#contact">联系我</a>
+    </nav>
+  </header>
+
+  <section id="intro" class="intro">
+    <img src="https://i.imgur.com/8Km9tLL.png" alt="头像">
+    <h2>你好，我是 Xiabo 👋</h2>
+    <p>专注于 AI 技术与自媒体内容创作，擅长构建智能应用、数字人、语音克隆与 AI 视频项目。</p>
+  </section>
+
+  <section id="skills">
+    <h2>我的技能</h2>
+    <div class="card-container">
+      <div class="card">
+        <h3>AI 技术</h3>
+        <p>擅长语音克隆、RVC 翻唱、数字人制作及多模态 AI 项目整合。</p>
+      </div>
+      <div class="card">
+        <h3>Web 开发</h3>
+        <p>熟悉 Next.js、Supabase、Vercel 等全栈框架，具备完整网站部署经验。</p>
+      </div>
+      <div class="card">
+        <h3>自动化与集成</h3>
+        <p>精通 Claude CLI、ComfyUI、KooTool 工作流设计与智能内容生产。</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <h2>我的作品</h2>
+    <div class="card-container">
+      <div class="card">
+        <h3>AI 曹操项目</h3>
+        <p>AI 声音人格重建项目，将古代人物通过语音合成与视频呈现。</p>
+      </div>
+      <div class="card">
+        <h3>IndexTTS 集成包</h3>
+        <p>一键部署可视化语音克隆系统，支持本地快速运行。</p>
+      </div>
+      <div class="card">
+        <h3>AI 自媒体工具包</h3>
+        <p>整合创作、视频生成与自动发布流程，提高短视频创作效率。</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>联系我</h2>
+    <div class="contact">
+      <a href="mailto:yourmail@example.com">📧 邮箱</a>
+      <a href="https://github.com/xiabo" target="_blank">💻 GitHub</a>
+      <div>
+        <p>📱 微信</p>
+        <img src="your-wechat-qrcode.png" alt="微信二维码">
+      </div>
+    </div>
+  </section>
+</body>
+</html>
