@@ -7,27 +7,27 @@
   <style>
     /* ====== 全局样式 ====== */
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; } /* 平滑滚动 */
     html, body { height: 100%; }
     body {
       font-family: "Microsoft YaHei", sans-serif;
       color: #fff;
-      /* 深色渐变背景（静态） */
       background: radial-gradient(circle at 20% 20%, #0a0f1f 0%, #071025 40%, #03040a 100%);
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
 
-    /* ====== 静态星空（不动画） ====== */
+    /* ====== 动态星空背景 ====== */
     #stars {
       position: fixed;
       inset: 0;
       z-index: -1;
       pointer-events: none;
     }
-    /* 用多个伪元素产生不同密度的静态星点层，视觉类似星空但无动画 */
     #stars::before,
-    #stars::after {
+    #stars::after,
+    #stars::first-letter {
       content: "";
       position: absolute;
       inset: 0;
@@ -41,12 +41,21 @@
     #stars::before {
       background-size: 3px 3px, 120px 120px;
       opacity: 0.10;
-      transform: translateZ(0);
+      animation: starShift 40s linear infinite;
     }
     #stars::after {
       background-size: 6px 6px, 240px 240px;
       opacity: 0.05;
-      transform: translateZ(0);
+      animation: starShift 60s linear reverse infinite;
+    }
+    #stars::first-letter {
+      background-size: 12px 12px, 300px 300px;
+      opacity: 0.08;
+      animation: starShift 80s linear infinite;
+    }
+    @keyframes starShift {
+      from { background-position: 0 0; }
+      to { background-position: 2000px 2000px; }
     }
 
     /* ====== 导航栏 ====== */
@@ -62,23 +71,53 @@
       align-items: center;
       z-index: 10;
       border-bottom: 1px solid rgba(255,255,255,0.04);
+      transition: all 0.3s ease;
+    }
+    header.scrolled {
+      padding: 8px 28px;
+      background: rgba(6,8,20,0.75);
     }
     header h1 {
       font-size: 20px;
       color: #8be0ff;
       letter-spacing: .5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    header h1::before {
+      content: "✦";
+      animation: pulse 2s infinite;
     }
     nav a {
       color: #dfeeff;
       margin-left: 18px;
       text-decoration: none;
       font-size: 15px;
-      transition: .18s;
+      transition: all 0.18s;
+      position: relative;
+      padding: 4px 0;
     }
     nav a:hover {
       color: #8be0ff;
       text-shadow: 0 0 10px rgba(139,224,255,0.35);
-      transform: translateY(-2px);
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: #8be0ff;
+      transition: width 0.3s ease;
+    }
+    nav a:hover::after {
+      width: 100%;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.2); }
     }
 
     /* ====== 个人简介 ====== */
@@ -86,6 +125,9 @@
       margin-top: 110px;
       text-align: center;
       padding: 40px 20px 10px;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.8s forwards 0.3s;
     }
     .intro img {
       width: 120px;
@@ -95,6 +137,10 @@
       box-shadow: 0 8px 30px rgba(11,22,44,0.6), 0 0 24px rgba(139,224,255,0.06);
       object-fit: cover;
       background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.2));
+      transition: transform 0.5s ease;
+    }
+    .intro img:hover {
+      transform: scale(1.05) rotate(2deg);
     }
     .intro h2 {
       margin-top: 18px;
@@ -118,12 +164,31 @@
       margin: 80px auto;
       text-align: center;
       padding: 0 20px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
     section h2 {
       font-size: 30px;
       margin-bottom: 26px;
       color: #8be0ff;
       text-shadow: 0 0 18px rgba(139,224,255,0.08);
+      position: relative;
+      display: inline-block;
+    }
+    section h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(139,224,255,0), rgba(139,224,255,0.8), rgba(139,224,255,0));
     }
 
     /* ====== 技能/作品卡片 ====== */
@@ -143,11 +208,19 @@
       box-shadow:
         0 4px 30px rgba(4,6,20,0.6),
         0 0 40px rgba(12,20,40,0.2);
-      transition: transform .28s ease, box-shadow .28s ease;
+      transition: transform 0.28s ease, box-shadow 0.28s ease;
       overflow: hidden;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.5s ease;
     }
+    section.visible .card {
+      animation: fadeInUp 0.6s forwards;
+    }
+    section.visible .card:nth-child(1) { animation-delay: 0.1s; }
+    section.visible .card:nth-child(2) { animation-delay: 0.2s; }
+    section.visible .card:nth-child(3) { animation-delay: 0.3s; }
     .card::before{
-      /* 霓虹边框（静态） */
       content: "";
       position: absolute;
       inset: -1px;
@@ -158,17 +231,29 @@
       mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
       mask-composite: exclude;
       pointer-events: none;
+      transition: opacity 0.3s ease;
     }
     .card:hover {
       transform: translateY(-8px);
       box-shadow:
         0 10px 40px rgba(4,6,20,0.7),
-        0 0 60px rgba(100,150,255,0.06);
+        0 0 60px rgba(100,150,255,0.1);
+    }
+    .card:hover::before {
+      opacity: 0.8;
     }
     .card h3 {
       color: #bfefff;
       margin-bottom: 10px;
       font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card h3::before {
+      content: "▣";
+      color: #8be0ff;
+      opacity: 0.7;
     }
     .card p {
       color: #cbd6e6;
@@ -176,7 +261,7 @@
       line-height: 1.6;
     }
 
-    /* 标签样式（可复用） */
+    /* 标签样式 */
     .tags {
       margin-top: 14px;
       display: flex;
@@ -190,26 +275,129 @@
       background: rgba(10,20,40,0.45);
       border: 1px solid rgba(139,224,255,0.06);
       color: #cfefff;
+      transition: all 0.2s ease;
+    }
+    .tag:hover {
+      background: rgba(139,224,255,0.15);
+      transform: translateY(-2px);
     }
 
-    /* ====== 联系方式 ====== */
-    .contact {
+    /* ====== 联系方式（重点修改部分） ====== */
+    #contact {
+      padding: 40px 20px 80px; /* 增加底部空间 */
+    }
+    #contact h2 {
+      color: #c994ff; /* 紫色标题，贴近参考设计 */
+      font-size: 32px;
+      margin-bottom: 16px;
+    }
+    #contact .subtitle {
+      color: #b0b8cc;
+      font-size: 15px;
+      margin-bottom: 40px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .contact-container {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+    .contact-card {
+      width: 280px;
+      background: rgba(15, 18, 40, 0.6);
+      border-radius: 12px;
+      padding: 30px 20px;
       text-align: center;
-      margin-bottom: 120px;
+      border: 1px solid rgba(100, 80, 200, 0.15);
+      box-shadow: 
+        0 0 30px rgba(20, 10, 50, 0.3),
+        0 0 0 1px rgba(120, 60, 255, 0.1) inset;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
     }
-    .contact a {
-      display: inline-block;
-      color: #8be0ff;
-      margin: 8px 16px;
+    .contact-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, 
+        rgba(120, 60, 255, 0) 0%, 
+        rgba(180, 100, 255, 0.6) 50%, 
+        rgba(120, 60, 255, 0) 100%);
+    }
+    .contact-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, 
+        rgba(120, 60, 255, 0) 0%, 
+        rgba(180, 100, 255, 0.6) 50%, 
+        rgba(120, 60, 255, 0) 100%);
+    }
+    .contact-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 
+        0 15px 35px rgba(20, 10, 50, 0.4),
+        0 0 40px rgba(150, 80, 255, 0.15),
+        0 0 0 1px rgba(120, 60, 255, 0.2) inset;
+    }
+    .contact-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      margin: 0 auto 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: white;
+    }
+    .icon-blog {
+      background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+    }
+    .icon-github {
+      background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    }
+    .icon-wechat {
+      background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%);
+    }
+    .contact-card h3 {
+      color: #c994ff; /* 紫色标题 */
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+    .contact-card p {
+      color: #a0aec0;
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+    .contact-card a {
+      color: #b794f4;
       text-decoration: none;
-      font-size: 17px;
+      font-size: 14px;
+      transition: color 0.2s ease;
     }
-    .contact img {
-      width: 110px;
-      margin-top: 12px;
-      border-radius: 10px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-      background: rgba(255,255,255,0.02);
+    .contact-card a:hover {
+      color: #c994ff;
+      text-decoration: underline;
+    }
+    .wechat-qrcode {
+      width: 120px;
+      height: 120px;
+      border-radius: 8px;
+      margin: 10px auto 0;
+      background: white;
+      padding: 5px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
 
     /* ====== Footer ====== */
@@ -218,6 +406,30 @@
       padding: 36px 20px;
       color: #99a7bf;
       font-size: 13px;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      margin-top: 0; /* 与联系区紧凑连接 */
+      background: rgba(6,8,20,0.3);
+    }
+    footer .footer-text {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    footer .emoji {
+      color: #c994ff;
+    }
+
+    /* 渐入动画 */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* ====== 响应式 ====== */
@@ -232,12 +444,15 @@
       nav a { margin-left: 12px; font-size: 14px; }
       .intro h2 { font-size: 22px; }
       .intro p { font-size: 14px; padding: 0 8px; }
+      section h2 { font-size: 26px; }
+      .contact-container { gap: 20px; }
+      .contact-card { width: 90%; max-width: 300px; }
     }
 
   </style>
 </head>
 <body>
-  <!-- 静态星空层（无动画） -->
+  <!-- 动态星空层 -->
   <div id="stars" aria-hidden="true"></div>
 
   <header>
@@ -251,7 +466,7 @@
   </header>
 
   <section id="intro" class="intro">
-    <img src="https://i.imgur.com/8Km9tLL.png" alt="头像">
+    <img src="images/ip头像.png" alt="头像"> 
     <h2>你好，我是 Xiabo 👋</h2>
     <p>专注于 AI 技术与自媒体内容创作，擅长构建智能应用、数字人、语音克隆与 AI 视频项目。欢迎在下方查看我的技能与作品。</p>
   </section>
@@ -310,26 +525,85 @@
     </div>
   </section>
 
+  <!-- 联系我区域（重点修改） -->
   <section id="contact">
     <h2>联系我</h2>
-    <div class="contact">
-      <a href="mailto:yourmail@example.com">📧 邮箱</a>
-      <a href="https://github.com/xiabo" target="_blank" rel="noopener">💻 GitHub</a>
-      <div>
-        <p>📱 微信</p>
-        <!-- 替换为你自己的二维码文件名 -->
-        <img src="your-wechat-qrcode.png" alt="微信二维码">
+    <p class="subtitle">如果你对我的技术或项目感兴趣，欢迎联系交流</p>
+    <div class="contact-container">
+      <!-- 技术博客 -->
+      <div class="contact-card">
+        <div class="contact-icon icon-blog">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+        </div>
+        <h3>技术博客</h3>
+        <p>CSDN技术分享平台</p>
+        <a href="https://blog.csdn.net/你的用户名" target="_blank" rel="noopener">访问博客</a>
+      </div>
+
+      <!-- GitHub -->
+      <div class="contact-card">
+        <div class="contact-icon icon-github">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+          </svg>
+        </div>
+        <h3>GitHub</h3>
+        <p>开源项目代码仓库</p>
+        <a href="https://github.com/xiabo" target="_blank" rel="noopener">访问仓库</a>
+      </div>
+
+      <!-- 微信 -->
+      <div class="contact-card">
+        <div class="contact-icon icon-wechat">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 5c-1.1-1.1-2.7-1.1-3.8 0L12 10.2 6.8 5c-1.1-1.1-2.7-1.1-3.8 0-1.1 1.1-1.1 2.7 0 3.8l4.3 4.3-4.3 4.3c-1.1 1.1-1.1 2.7 0 3.8 1.1 1.1 2.7 1.1 3.8 0L12 13.8l5.2 5.2c1.1 1.1 2.7 1.1 3.8 0 1.1-1.1 1.1-2.7 0-3.8l-4.3-4.3 4.3-4.3c1.1-1.1 1.1-2.7 0-3.8z"></path>
+          </svg>
+        </div>
+        <h3>微信</h3>
+        <p>javaboy2012</p>
+        <img src="images/wechat-qrcode.jpg" alt="微信二维码" class="wechat-qrcode">
       </div>
     </div>
   </section>
 
   <footer>
-    © <span id="year"></span> Xiabo. 保留所有权利。
+    <div class="footer-text">
+      © <span id="year"></span> Xiabo. 保留所有权利. 
+      Made with <span class="emoji">💜</span> & <span class="emoji">☕</span>
+    </div>
   </footer>
 
   <script>
-    // 简单填充年份
+    // 填充年份
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // 导航栏滚动效果
+    window.addEventListener('scroll', function() {
+      const header = document.querySelector('header');
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+      
+      // 滚动显示动画
+      const sections = document.querySelectorAll('section');
+      sections.forEach(section => {
+        const sectionTop = section.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        if (sectionTop < windowHeight * 0.75) {
+          section.classList.add('visible');
+        }
+      });
+    });
+
+    // 页面加载完成后触发一次滚动检查
+    window.addEventListener('load', function() {
+      window.dispatchEvent(new Event('scroll'));
+    });
   </script>
 </body>
 </html>
