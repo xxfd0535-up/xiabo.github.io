@@ -19,10 +19,13 @@
     body {
       font-family: "Microsoft YaHei", sans-serif;
       color: #fff;
-      background: radial-gradient(circle at 20% 20%, #0a0f1f 0%, #071025 40%, #03040a 100%);
+      background: radial-gradient(circle at 20% 20%, #070a19 0%, #05081c 40%, #020308 100%);
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
     /* ====== 动态星空背景 ====== */
@@ -166,6 +169,19 @@
       margin-right: auto;
       line-height: 1.7;
     }
+    
+    /* 呼吸动效 */
+    @keyframes breath {
+      0% {
+        box-shadow: 0 0 0 0 rgba(139, 224, 255, 0.4);
+      }
+      70% {
+        box-shadow: 0 0 0 10px rgba(139, 224, 255, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(139, 224, 255, 0);
+      }
+    }
 
     /* ====== 区块标题 ====== */
     section {
@@ -205,7 +221,19 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 28px;
+      gap: 25px;
+      width: 100%;
+    }
+    
+    /* 确保卡片内容正确可点击 */
+    .card a {
+      display: block;
+      width: 100%;
+      height: 100%;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+      z-index: 1;
     }
     .card {
       position: relative;
@@ -222,6 +250,15 @@
       opacity: 0;
       transform: translateY(20px);
       transition: all 0.5s ease;
+      cursor: pointer;
+    }
+    
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow:
+        0 10px 40px rgba(4,6,20,0.7),
+        0 0 60px rgba(100,150,255,0.1);
+      animation: breath 2s infinite;
     }
     section.visible .card {
       animation: fadeInUp 0.6s forwards;
@@ -327,6 +364,20 @@
       transition: all 0.3s ease;
       position: relative;
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 300px;
+    }
+    
+    .contact-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 
+        0 15px 35px rgba(20, 10, 50, 0.4),
+        0 0 40px rgba(150, 80, 255, 0.15),
+        0 0 0 1px rgba(120, 60, 255, 0.2) inset;
+      animation: breath 2s infinite;
     }
     .contact-card::before {
       content: '';
@@ -412,12 +463,13 @@
     /* ====== Footer ====== */
     footer {
       text-align: center;
-      padding: 36px 20px;
+      padding: 60px 20px;
       color: #99a7bf;
       font-size: 13px;
       border-top: 1px solid rgba(255,255,255,0.04);
-      margin-top: 0; /* 与联系区紧凑连接 */
+      margin-top: 60px; /* 增加底部空间 */
       background: rgba(6,8,20,0.3);
+      flex-shrink: 0;
     }
     footer .footer-text {
       display: flex;
@@ -460,7 +512,7 @@
 
   </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col">
   <!-- 动态星空层 -->
   <div id="stars" aria-hidden="true"></div>
 
@@ -477,7 +529,7 @@
   <section id="intro" class="intro">
     <img src="images/IP头像.png" alt="头像" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%22120%22 viewBox=%220 0 120 120%22%3E%3Ccircle cx=%2260%22 cy=%2260%22 r=%2255%22 fill=%22%231a1a2e%22 stroke=%22%238be0ff%22 stroke-width=%222%22/%3E%3Ctext x=%2260%22 y=%2265%22 font-family=%22Arial%22 font-size=%2224%22 fill=%22%238be0ff%22 text-anchor=%22middle%22%3EX%3C/text%3E%3C/svg%3E'; this.alt='头像加载失败';"> 
     <h2>你好，我是 Xiabo 👋</h2>
-    <p>专注于 AI 技术与自媒体内容创作，擅长构建智能应用、数字人、语音克隆与 AI 视频项目。欢迎在下方查看我的技能与作品。</p>
+    <p>前大厂程序员- AI 编程出海创业者- 专注于大型互联网产品研发与技术融合、擅长构建和部署AI项目。欢迎在下方查看我的技能与作品。</p>
   </section>
 
   <section id="skills">
@@ -572,8 +624,9 @@
           </svg>
         </div>
         <h3>微信</h3>
-        <p>javaboy2012</p>
-        <img src="images/wechat-qrcode.jpg" alt="微信二维码" class="wechat-qrcode" onerror="this.src='images/placeholder.png';this.alt='二维码加载失败';">
+        <div class="wechat-qrcode-container" style="margin-top: 15px;">
+          <img src="images/wechat-qrcode.jpg" alt="微信二维码" class="wechat-qrcode" onerror="this.src='images/placeholder.png';this.alt='二维码加载失败';" style="width: 150px; height: 150px; margin: 0;">
+        </div>
       </div>
     </div>
   </section>
